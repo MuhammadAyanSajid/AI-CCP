@@ -342,7 +342,10 @@
           <div class="control-group gap-10">
             <button class="cyber-btn btn-primary" onclick="startSolveFlow()">Solve Grid</button>
             <button class="cyber-btn btn-secondary" onclick="pauseSolveFlow()">Pause Animation</button>
-            <button class="cyber-btn btn-accent" onclick="resetBoard()">Reset Environment</button>
+            <div class="grid-half">
+              <button class="cyber-btn btn-accent" onclick="resetBoard()">Reset Unsolved</button>
+              <button class="cyber-btn btn-secondary" onclick="loadPreset()">Generate New</button>
+            </div>
           </div>
         </aside>
 
@@ -479,6 +482,11 @@
     let boardStateB = [];
     let initialCluesA = [];
     let initialCluesB = [];
+    
+    // Backup states to support puzzle rerunning
+    let backupStateA = [];
+    let backupStateB = [];
+
     let raceModeActive = false;
     let isSolving = false;
     let delayMs = 30;
@@ -514,6 +522,7 @@
         
         const { suffix, r, c } = focusedCell;
         const board = suffix === 'a' ? boardStateA : boardStateB;
+        const backup = suffix === 'a' ? backupStateA : backupStateB;
         const initialClues = suffix === 'a' ? initialCluesA : initialCluesB;
 
         if (initialClues[r][c] !== 0) return; // Prevent overwriting fixed clues
@@ -523,10 +532,12 @@
         if (e.key >= '1' && e.key <= '9') {
           const val = parseInt(e.key);
           board[r][c] = val;
+          backup[r][c] = val; // Synchronize our unsolved state backup
           cell.textContent = val;
           validateGridConflicts(suffix, board);
         } else if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') {
           board[r][c] = 0;
+          backup[r][c] = 0; // Synchronize our unsolved state backup
           cell.textContent = '';
           validateGridConflicts(suffix, board);
         }
@@ -577,6 +588,10 @@
       initialCluesA = JSON.parse(JSON.stringify(data.grid));
       initialCluesB = JSON.parse(JSON.stringify(data.grid));
 
+      // Clone starting grid configuration for reruns
+      backupStateA = JSON.parse(JSON.stringify(data.grid));
+      backupStateB = JSON.parse(JSON.stringify(data.grid));
+
       focusedCell = null;
       resetStats();
       renderSudokuGrid('a', boardStateA, initialCluesA);
@@ -585,7 +600,19 @@
 
     function resetBoard() {
       pauseSolveFlow();
-      loadPreset();
+      
+      // Restore initial puzzle grid (preserves custom edits)
+      boardStateA = JSON.parse(JSON.stringify(backupStateA));
+      boardStateB = JSON.parse(JSON.stringify(backupStateB));
+
+      resetStats();
+      renderSudokuGrid('a', boardStateA, initialCluesA);
+      renderSudokuGrid('b', boardStateB, initialCluesB);
+
+      validateGridConflicts('a', boardStateA);
+      if (raceModeActive) {
+        validateGridConflicts('b', boardStateB);
+      }
     }
 
     function resetStats() {
