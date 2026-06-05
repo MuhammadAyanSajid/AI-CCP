@@ -645,6 +645,13 @@
     }
 
     async function startSolveFlow() {
+      // Check if there are active user-input conflicts on the board before solving
+      const conflicts = document.querySelectorAll('.cell-conflict');
+      if (conflicts.length > 0) {
+        alert("Cannot solve: The grid contains active conflicts (cells highlighted in red). Please resolve them first.");
+        return;
+      }
+
       if (isSolving) return;
       isSolving = true;
       resetStats();
@@ -777,6 +784,13 @@
     async function runInstantBenchmark() {
       // Clean up any stale/running sweeps first
       cancelBenchmarkSweep();
+
+      // Check if there are active user conflicts on the board before benchmarking
+      const conflicts = document.querySelectorAll('.cell-conflict');
+      if (conflicts.length > 0) {
+        alert("Cannot benchmark: The grid contains active conflicts (highlighted in red). Please resolve them first.");
+        return;
+      }
 
       const btn = document.getElementById('btn-sweep-id');
       btn.textContent = "Running Sweep...";

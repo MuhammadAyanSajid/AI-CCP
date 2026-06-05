@@ -1,14 +1,14 @@
 """
 UET Lahore - Department of Computer Science
 CSC202 Artificial Intelligence - Complex Computing Problem (CCP)
-Main Entry Point & API Controller
+Main Entry Point & Multi-Threaded API Controller
 """
 
 import os
 import json
 import time
 from urllib.parse import parse_qs
-from http.server import SimpleHTTPRequestHandler, HTTPServer
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 # Import core modules from the local package engine
 from engine.generator import SudokuEngine
@@ -127,9 +127,10 @@ class UnifiedAppHandler(SimpleHTTPRequestHandler):
 
 def run_server():
     server_address = ("", 8000)
-    httpd = HTTPServer(server_address, UnifiedAppHandler)
+    # Upgraded from HTTPServer to ThreadingHTTPServer to prevent solver blockages
+    httpd = ThreadingHTTPServer(server_address, UnifiedAppHandler)
     print("=" * 60)
-    print(" 🚀 UET Lahore CSP Solver Server is running.")
+    print(" 🚀 UET Lahore CSP Multi-Threaded Server is running.")
     print(" 💻 Local Web UI URL: http://localhost:8000")
     print("=" * 60)
     try:
