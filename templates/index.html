@@ -227,10 +227,44 @@
     .cyber-table th { background: rgba(0, 0, 0, 0.3); padding: 12px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); }
     .cyber-table td { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
     .cyber-table tr:hover { background: rgba(255, 255, 255, 0.01); }
+
+    /* Interface Toast Notification Container */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .toast {
+      background: rgba(18, 22, 35, 0.9);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--accent-red);
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.25);
+      border-left: 4px solid var(--accent-red);
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: var(--fg);
+      font-size: 0.85rem;
+      pointer-events: auto;
+      animation: slideIn 0.35s ease-out, fadeOut 0.5s ease-in 3.5s forwards;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateY(-10px); }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Dynamic animated glow background orbs -->
   <div class="glowing-orbs">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -394,6 +428,9 @@
       </main>
     </div>
   </div>
+
+  <!-- custom dynamic interface toast container -->
+  <div id="toast-container" class="toast-container"></div>
 
   <script>
     let boardStateA = [];
@@ -644,11 +681,24 @@
       }
     }
 
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      container.appendChild(toast);
+      
+      // Auto-remove toast from DOM after animation completes
+      setTimeout(() => {
+        toast.remove();
+      }, 4000);
+    }
+
     async function startSolveFlow() {
-      // Check if there are active user-input conflicts on the board before solving
+      // Custom visual block for active conflicts
       const conflicts = document.querySelectorAll('.cell-conflict');
       if (conflicts.length > 0) {
-        alert("Cannot solve: The grid contains active conflicts (cells highlighted in red). Please resolve them first.");
+        showToast("Cannot solve: The grid contains active conflicts (cells highlighted in red). Please resolve them first.");
         return;
       }
 
@@ -785,10 +835,10 @@
       // Clean up any stale/running sweeps first
       cancelBenchmarkSweep();
 
-      // Check if there are active user conflicts on the board before benchmarking
+      // Custom visual block for active conflicts
       const conflicts = document.querySelectorAll('.cell-conflict');
       if (conflicts.length > 0) {
-        alert("Cannot benchmark: The grid contains active conflicts (highlighted in red). Please resolve them first.");
+        showToast("Cannot benchmark: The grid contains active conflicts (cells highlighted in red). Please resolve them first.");
         return;
       }
 
