@@ -92,6 +92,39 @@ class UnifiedAppHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(response_data).encode("utf-8"))
 
+        elif self.path == "/api/benchmark":
+            grid_str = params.get("grid", [""])[0]
+            if not grid_str:
+                self.send_error(400, "Missing Grid Parameter")
+                return
+            
+            grid = json.loads(grid_str)
+            
+            solvers = [
+                ("Uninformed DFS", UninformedDFSSolver(grid)),
+                ("Informed (AC-3+MRV+DH)", InformedCSPSolver(grid)),
+                ("Propagation (FC)", ForwardCheckingSolver(grid)),
+                ("Local Search (SA)", LocalSearchSASolver(grid))
+            ]
+
+            results = []
+            for name, solver in solvers:
+                start = time.perf_counter()
+                success, _, states, backtracks = solver.solve()
+                elapsed_ms = (time.perf_counter() - start) * 1000.0
+                results.append({
+                    "name": name,
+                    "success": success,
+                    "states": states,
+                    "backtracks": backtracks,
+                    "time": elapsed_ms
+                })
+
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(results).encode("utf-8"))
+
 def run_server():
     server_address = ("", 8000)
     httpd = HTTPServer(server_address, UnifiedAppHandler)
