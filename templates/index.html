@@ -575,6 +575,8 @@
     }
 
     async function loadPreset() {
+      pauseSolveFlow(); // Hald and clear active solvers first
+
       const diff = document.getElementById('preset-select').value;
       const resp = await fetch('/api/generate', {
         method: 'POST',
@@ -809,6 +811,11 @@
           badge.className = "badge-label-flat badge-unsolvable";
           banner.textContent = "CSP Inconsistent. Mathematically unsolvable board.";
           banner.className = "banner-status banner-unsolvable";
+        }
+
+        // Release the solving flag lock once animation queue reaches 0
+        if (!raceModeActive || (animationQueueA.length === 0 && animationQueueB.length === 0)) {
+          isSolving = false;
         }
         return;
       }
