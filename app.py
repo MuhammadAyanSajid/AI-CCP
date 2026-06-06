@@ -130,8 +130,8 @@ def run_server():
     # Upgraded from HTTPServer to ThreadingHTTPServer to prevent solver blockages
     httpd = ThreadingHTTPServer(server_address, UnifiedAppHandler)
     print("=" * 60)
-    print(" 🚀 UET Lahore CSP Multi-Threaded Server is running.")
-    print(" 💻 Local Web UI URL: http://localhost:8000")
+    print("UET Lahore CSP Multi-Threaded Server is running.")
+    print("Local Web UI URL: http://localhost:8000")
     print("=" * 60)
     try:
         httpd.serve_forever()
