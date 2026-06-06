@@ -126,12 +126,15 @@ class UnifiedAppHandler(SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(results).encode("utf-8"))
 
 def run_server():
-    server_address = ("", 8000)
+    # Read the dynamically assigned PORT from the environment, defaulting to 8000 locally
+    port = int(os.environ.get("PORT", 8000))
+    server_address = ("", port)
+    
     # Upgraded from HTTPServer to ThreadingHTTPServer to prevent solver blockages
     httpd = ThreadingHTTPServer(server_address, UnifiedAppHandler)
     print("=" * 60)
-    print("UET Lahore CSP Multi-Threaded Server is running.")
-    print("Local Web UI URL: http://localhost:8000")
+    print(f" 🚀 UET Lahore CSP Multi-Threaded Server is running.")
+    print(f" 💻 Port: {port}")
     print("=" * 60)
     try:
         httpd.serve_forever()
