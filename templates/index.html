@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UET Lahore | AI Sudoku CCP Solver & Academic Hub</title>
+  <title>AI Sudoku CCP Solver</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
@@ -191,10 +191,6 @@
       background: rgba(255, 40, 110, 0.05) !important;
     }
 
-    .legend { display: flex; flex-wrap: wrap; gap: 12px; padding: 12px; border-top: 1px solid var(--border); margin-top: 12px; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--muted); }
-    .legend-color { width: 10px; height: 10px; border-radius: 2px; }
-
     /* Layout helper utils */
     .mt-8 { margin-top: 8px; }
     .hidden { display: none !important; }
@@ -214,7 +210,6 @@
     .bg-legend-solved { background: var(--bg); border: 1px solid var(--accent-primary); }
     .bg-legend-backtrack { background: rgba(255, 40, 110, 0.2); border: 1px solid var(--accent-secondary); }
     .bg-legend-pruned { background: rgba(255, 190, 0, 0.15); border: 1px solid var(--accent-yellow); }
-    .legend-tip { margin-left: auto; color: var(--accent-yellow); }
 
     /* Instant Benchmark Sweep Panel design */
     .report-panel { padding: 24px; margin-top: 24px; display: flex; flex-direction: column; gap: 16px; }
@@ -272,15 +267,13 @@
 
   <div class="container">
     <header>
-      <div class="header-badge"><span></span> UET Lahore - AI Laboratory Platform</div>
+      <div class="header-badge"><span></span>                              </div>
       <div class="header-grid">
         <div>
-          <h1>AI Sudoku CSP Solver & Benchmarker</h1>
-          <p class="header-sub">Run native <strong>Python algorithm servers</strong> directly to visualize state transitions, variable heuristics, and constraint propagation.</p>
+          <h1>AI Sudoku CSP Solver</h1>
+          
         </div>
-        <div class="uet-seal">
-          <span>UET LAHORE</span> Campus AI Suite
-        </div>
+        
       </div>
     </header>
 
@@ -388,15 +381,6 @@
             </div>
             <div class="banner-status" id="status-banner-b">Ready.</div>
           </div>
-        </div>
-
-        <div class="glass-panel legend">
-          <div class="legend-item"><div class="legend-color bg-legend-fixed"></div><span>Clue Cell</span></div>
-          <div class="legend-item"><div class="legend-color bg-legend-inspecting"></div><span>Inspecting Node</span></div>
-          <div class="legend-item"><div class="legend-color bg-legend-solved"></div><span>Assigned value</span></div>
-          <div class="legend-item"><div class="legend-color bg-legend-backtrack"></div><span>Backtracked State</span></div>
-          <div class="legend-item"><div class="legend-color bg-legend-pruned"></div><span>Pruned candidate</span></div>
-          <div class="legend-item legend-tip"><span>💡 Click any empty cell and type numbers 1-9 to edit. Press Backspace to clear.</span></div>
         </div>
 
         <!-- Instant Board Performance Benchmark Panel -->
@@ -910,3 +894,4 @@
   </script>
 </body>
 </html>
+
