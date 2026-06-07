@@ -1,16 +1,9 @@
-"""
-UET Lahore - Department of Computer Science
-CSC202 Artificial Intelligence - Complex Computing Problem (CCP)
-Main Entry Point & Multi-Threaded API Controller
-"""
-
 import os
 import json
 import time
 from urllib.parse import parse_qs
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
-# Import core modules from the local package engine
 from engine.generator import SudokuEngine
 from engine.uninformed import UninformedDFSSolver
 from engine.informed import InformedCSPSolver
@@ -130,16 +123,15 @@ def run_server():
     port = int(os.environ.get("PORT", 8000))
     server_address = ("", port)
     
-    # Upgraded from HTTPServer to ThreadingHTTPServer to prevent solver blockages
     httpd = ThreadingHTTPServer(server_address, UnifiedAppHandler)
     print("=" * 60)
-    print(f"UET Lahore CSP Multi-Threaded Server is running.")
+    print(f"CSP Multi-Threaded Server is running.")
     print(f"Port: {port}")
     print("=" * 60)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\n Server gracefully shutting down.")
+        print("\n Server shutting down.")
         httpd.server_close()
 
 if __name__ == "__main__":

@@ -1,7 +1,3 @@
-"""
-Informed AC-3, MRV, and DH Solver Module
-"""
-
 class InformedCSPSolver:
     def __init__(self, grid):
         self.grid = [row[:] for row in grid]

@@ -1,6 +1,3 @@
-"""
-Local Search (Simulated Annealing) Module
-"""
 import random
 import math
 from engine.informed import InformedCSPSolver
@@ -76,7 +73,7 @@ class LocalSearchSASolver:
 
             T *= alpha
 
-        # Local search fallback mechanism (Informed solver backup)
+        # Local search fallback mechanism
         fallback = InformedCSPSolver(self.initial_grid)
         success, f_log, f_states, f_backtracks = fallback.solve()
         self.steps_log.extend(f_log)

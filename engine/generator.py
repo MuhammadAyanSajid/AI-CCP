@@ -1,6 +1,3 @@
-"""
-Procedural Grid Generator Module
-"""
 import random
 
 class SudokuEngine:

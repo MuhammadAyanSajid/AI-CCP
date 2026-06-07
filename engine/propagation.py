@@ -1,7 +1,3 @@
-"""
-Constraint Propagation (Forward Checking) Module
-"""
-
 class ForwardCheckingSolver:
     def __init__(self, grid):
         self.grid = [row[:] for row in grid]

@@ -1,7 +1,3 @@
-"""
-Uninformed DFS Backtracking Module
-"""
-
 class UninformedDFSSolver:
     def __init__(self, grid):
         self.grid = [row[:] for row in grid]
