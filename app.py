@@ -133,8 +133,8 @@ def run_server():
     # Upgraded from HTTPServer to ThreadingHTTPServer to prevent solver blockages
     httpd = ThreadingHTTPServer(server_address, UnifiedAppHandler)
     print("=" * 60)
-    print(f" 🚀 UET Lahore CSP Multi-Threaded Server is running.")
-    print(f" 💻 Port: {port}")
+    print(f"UET Lahore CSP Multi-Threaded Server is running.")
+    print(f"Port: {port}")
     print("=" * 60)
     try:
         httpd.serve_forever()
