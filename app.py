@@ -95,7 +95,7 @@ class UnifiedAppHandler(SimpleHTTPRequestHandler):
             
             solvers = [
                 ("Uninformed DFS", UninformedDFSSolver(grid)),
-                ("Informed (AC-3+MRV+DH)", InformedCSPSolver(grid)),
+                ("Informed (AC-3+MRV)", InformedCSPSolver(grid)),
                 ("Propagation (FC)", ForwardCheckingSolver(grid)),
                 ("Local Search (SA)", LocalSearchSASolver(grid))
             ]
